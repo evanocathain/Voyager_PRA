@@ -37,33 +37,43 @@ for record in range(0,nrecords):
   s  = float(sec.decode())/86400.0
   hh = int(s*24)
   mm = int((s*24-hh)*60)
-  ss = int((((s*24-hh)*60) - mm)*60)
+  ss = round((((s*24-hh)*60) - mm)*60)
   print("Time of day (hh:mm:ss):",hh,":",mm,":",ss)
 
   for sweeps in range(0,nsweeps):
     i = record*nsweeps + sweeps
     status_word = f.read(3)
     status_word = f.read(1) # just the last byte
-    # Last 12 bits are used. Of these the 9th and 10th give the first polarisaton 
+    # Last 12 bits are used. LSB=0, up to 11
+    # Of these bits 9 and 10 give the first polarisaton 
+    # So that is the 10th and 11th bits
     # 0 --> R L; 1 --> L R
-#    print((struct.unpack('<B',status_word)[0] >> 3) & 1)  # the 9th bit
-#    print((struct.unpack('<B',status_word)[0] >> 2) & 1)  # the 10th bit
+#    print(struct.unpack('<B',status_word)[0])
+    if ((struct.unpack('<B',status_word)[0] >> 9) & 1 == 0 and (struct.unpack('<B',status_word)[0] >> 10) == 0):
+#      print("BOTH ZERO")
+#    print((struct.unpack('<B',status_word)[0] >> 9) & 1)  # the 10th last bit
+#    print((struct.unpack('<B',status_word)[0] >> 10) & 1)  # the 11th last bit
+      rfirst=1
 
     for j in range(0,70):
-#      L[i][j] = f.read(2)
 #      R[i][j] = f.read(2)
+#      L[i][j] = f.read(2)
 #   This worked fine up to 704 sweeps in to my test file where empty 
 #   values are hit.
 #   So I put in this below ugly-but-it-works check
 #   Can't immediately see a nicer way to do it based on the status word
-      l = f.read(2)
       r = f.read(2)
-      if ( l == empty):
-        l = '0'
+      l = f.read(2)
       if ( r == empty):
         r = '0'
-      L[i][j] = l
-      R[i][j] = r
+      if ( l == empty):
+        l = '0'
+      if (rfirst == 0):
+        R[i][j] = l
+        L[i][j] = r
+      else:
+        R[i][j] = r
+        L[i][j] = l
 #      print(struct.unpack('<H',L[i][j])[0])
 #      print(struct.unpack('<H',R[i][j])[0])
 
