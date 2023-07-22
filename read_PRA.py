@@ -11,12 +11,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-f',   dest='infile',          help='set the input file name')
 parser.add_argument('-r',   dest='nread', type=int, help='read this many spectra (default=300)',default=300) 
 parser.add_argument('-s',   dest='nskip', type=int, help='skip this many spectra (default=0)', default=0) 
-parser.add_argument('-src', dest='src',             help='source, e.g. U for Uranus, N for Neptune (default: U)',default='U')
+parser.add_argument('-src', dest='src',             help='source, e.g. U for Uranus, N for Neptune (default: U)', default='U')
+parser.add_argument('-fil', dest='fil',             help='write out a SIGPROC filterbank file (default=do not)', action='store_const', const='y', default='n')
 args      = parser.parse_args()
 infile    = args.infile
 nread     = args.nread
 nskip     = args.nskip
 src       = args.src
+fil	  = args.fil
 #print(infile)
 nsweeps    = 8
 nrecords   = nread//8
@@ -97,11 +99,22 @@ for record in range(0,nrecords):
 #plt.plot((R[0]).T)
 #plt.show()
 #sys.exit()
-plt.imshow((L).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
+plt.imshow((L**2).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
 plt.show()
-plt.imshow((R).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
+plt.imshow((R**2).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
 plt.show()
 plt.imshow((L**2+R**2).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
 plt.show()
+
+f.close()
+
+if (fil == 'y'):
+  print("Writing out SIGPROC filterbank files")
+  g = open("L.fil",'wb')
+  h = open("R.fil",'wb')
+  g.write(L)
+  h.write(R)
+  g.close()
+  h.close()
 
 sys.exit()
