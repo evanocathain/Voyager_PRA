@@ -87,23 +87,11 @@ for record in range(0,nrecords):
     bla = f.read(2)      # added this as 12 + 71*4*8 == 2284, not 2286.
   elif (src == "N"):
     bla = f.read(1)      # seems to be just 1 extra useless byte for Neptune data
-#  Print(record)
-  print(f.tell())
 
-#from maser.data import Data
-#data=Data(filepath='VG2_URN_PRA_6SEC.LBL')
-#data_array=data.as_xarray()
-
-#print(L[100])
-#print(R[100])
-#plt.plot((R[0]).T)
-#plt.show()
-#sys.exit()
-plt.imshow((L**2).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
+# Plot things
+plt.imshow((L).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
 plt.show()
-plt.imshow((R**2).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
-plt.show()
-plt.imshow((L**2+R**2).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
+plt.imshow((R).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
 plt.show()
 
 f.close()
