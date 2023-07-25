@@ -49,13 +49,18 @@ for record in range(0,nrecords):
   for sweeps in range(0,nsweeps):
     i = record*nsweeps + sweeps
     status_word = f.read(4)
-    for j in range(0,35):
+    # There is a frequency shift between these sweeps #
+    shift = 0
+    if ((src=="U") and (i + nskip//nsweeps > 83014) and (i + nskip//nsweeps < 116336)):
+      shift=1
+    for j in range(shift,nchans):
       if (rfirst):
         R[i][j] = f.read(4)
         L[i][j] = f.read(4)
       else:
         L[i][j] = f.read(4)
         R[i][j] = f.read(4)
+    if (src=="U" and shift==1): f.seek(8,1)
     rfirst = not rfirst  # next sweep is opposite way around
 
   if (src == "U"):
