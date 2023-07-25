@@ -51,7 +51,8 @@ for record in range(0,nrecords):
     status_word = f.read(4)
     # There is a frequency shift between these sweeps #
     shift = 0
-    if ((src=="U") and (i + nskip//nsweeps > 83014) and (i + nskip//nsweeps < 116336)):
+#    print(record,i,sweeps,nskip,i+nskip//nsweeps)
+    if ((src=="U") and (i + nskip > 83014) and (i + nskip < 116336)):
       shift=1
     for j in range(shift,nchans):
       if (rfirst):
