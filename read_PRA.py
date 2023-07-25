@@ -68,9 +68,9 @@ f.close()
 if (plot == 'y'):
   # Plot things
   import matplotlib.pylab as plt
-  plt.imshow((L).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
+  plt.imshow((L).T, cmap='Greys',interpolation='none',origin='lower',aspect=max(5,5*int(nread/300)))
   plt.show()
-  plt.imshow((R).T, cmap='Greys',interpolation='none',origin='lower',aspect=5)
+  plt.imshow((R).T, cmap='Greys',interpolation='none',origin='lower',aspect=max(5,5*int(nread/300)))
   plt.show()
 
 if (fil == 'y'):
