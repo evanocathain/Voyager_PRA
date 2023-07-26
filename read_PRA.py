@@ -25,6 +25,7 @@ v         = args.v
 nsweeps    = 8
 nrecords   = nread//nsweeps
 recordsize = 2286    # bytes
+if (src == "N"): recordsize = 2285
 nchans     = 35      
 L = np.zeros((nsweeps*nrecords,nchans),dtype=np.uint32)
 R = np.zeros((nsweeps*nrecords,nchans),dtype=np.uint32)
