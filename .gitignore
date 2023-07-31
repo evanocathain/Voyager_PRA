@@ -2,3 +2,6 @@
 *.TAB
 *.fil
 PRA_Data
+pulses*
+L*
+R*

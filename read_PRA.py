@@ -29,6 +29,8 @@ if (src == "N"): recordsize = 2285
 nchans     = 35      
 L = np.zeros((nsweeps*nrecords,nchans),dtype=np.uint32)
 R = np.zeros((nsweeps*nrecords,nchans),dtype=np.uint32)
+Lfloat = np.zeros((nsweeps*nrecords,nchans),dtype=np.float32)
+Rfloat = np.zeros((nsweeps*nrecords,nchans),dtype=np.float32)
 
 ## https://pds-ppi.igpp.ucla.edu/ditdos/viewFile?id=pds://PPI/VG2-U-PRA-3-RDR-LOWBAND-6SEC-V1.0/DATA/VG2_URN_PRA_6SEC.LBL
 f = open(infile, 'rb')
@@ -84,8 +86,14 @@ if (fil == 'y'):
   print("Writing out SIGPROC filterbank files")
   g = open("L.fil",'wb')
   h = open("R.fil",'wb')
-  g.write(L)
-  h.write(R)
+#  g.write(L)
+#  h.write(R)
+  for i in range(0,nread):
+    for j in range(0,nchans):
+      Lfloat[i][j] = L[i][j]+0.0
+      Rfloat[i][j] = R[i][j]+0.0
+  g.write(Lfloat)
+  h.write(Rfloat)
   g.close()
   h.close()
 
