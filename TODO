@@ -1,0 +1,6 @@
+1. Ensure there are no gaps in the data. If missing time stamp output
+something. 
+
+2. Make option to write out zeroes, or noise for missing data sweeps.
+Or should this just be zeroes with noise insertion left to something
+else? 
